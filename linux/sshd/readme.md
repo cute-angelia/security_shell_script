@@ -14,3 +14,21 @@ linux 安全日志在 `/var/log/secure` 里面可以查看
 167.71.x.x=42241
 194.163.x.x=55148
 ```
+
+### 安装
+
+```
+wget https://raw.githubusercontent.com/cute-angelia/security_shell_script/master/linux/sshd/block_sshd_ip.sh
+
+chmod +x block_sshd_ip.sh
+```
+
+定时任务
+
+```
+crontab -e
+
+# 屏蔽 sshd 登录失败用户
+* */3 * * *  sh /root/block_sshd_ip.sh
+
+```
