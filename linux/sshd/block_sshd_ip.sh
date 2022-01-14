@@ -1,5 +1,5 @@
 #! /bin/bash
-lastb | grep "ssh:notty" | awk '{print $(NF-7)}' |sort|uniq -c | awk '{print $2"="$1;}' > /tmp/black.list
+lastb | grep "ssh:" | awk '{print $(NF-7)}' |sort|uniq -c | awk '{print $2"="$1;}' > /tmp/black.list
 for i in `cat /tmp/black.list`
 do
   IP=`echo $i |awk -F= '{print $1}'`
