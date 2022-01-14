@@ -11,3 +11,5 @@ do
     fi
   fi
 done
+
+cat /etc/hosts.deny
