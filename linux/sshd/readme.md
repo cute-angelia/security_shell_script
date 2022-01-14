@@ -32,3 +32,9 @@ crontab -e
 * */3 * * *  sh /root/block_sshd_ip.sh
 
 ```
+
+查看是否生效
+
+```
+cat /etc/hosts.deny
+```
