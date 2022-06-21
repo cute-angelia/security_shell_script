@@ -7,5 +7,5 @@ do
     # 定位到日志文件目录
     log_dir=/var/log
     # 删除文件
-    find $log_dir -mtime +7 -exec rm -rf {} \;
+    find $log_dir -type f -mtime +7 -exec rm -rf {} \;
 done
