@@ -46,6 +46,20 @@ $IPT -I OUTPUT -j $SPAMLIST
 $IPT -I FORWARD -j $SPAMLIST
 fi
 
+# 关闭邮件端口 某些漏洞通过转发滥发垃圾邮件
+$IPT -A OUTPUT -p TCP --dport 25 -j DROP
+$IPT -A OUTPUT -p TCP --dport 110 -j DROP
+$IPT -A OUTPUT -p TCP --dport 465 -j DROP
+$IPT -A OUTPUT -p TCP --dport 587 -j DROP
+$IPT -A OUTPUT -p TCP --dport 993 -j DROP
+$IPT -A OUTPUT -p TCP --dport 995 -j DROP
+$IPT -A INPUT -p TCP --dport 25 -j DROP
+$IPT -A INPUT -p TCP --dport 110 -j DROP
+$IPT -A INPUT -p TCP --dport 465 -j DROP
+$IPT -A INPUT -p TCP --dport 587 -j DROP
+$IPT -A INPUT -p TCP --dport 993 -j DROP
+$IPT -A INPUT -p TCP --dport 995 -j DROP
+
 # Block sync
 $IPT -A INPUT -i ${PUB_IF} -p tcp ! --syn -m state --state NEW  -m limit --limit 5/m --limit-burst 7 -j LOG --log-level 4 --log-prefix "Drop Sync"
 $IPT -A INPUT -i ${PUB_IF} -p tcp ! --syn -m state --state NEW -j DROP
@@ -70,6 +84,7 @@ $IPT  -A INPUT -i ${PUB_IF} -p tcp --tcp-flags FIN,ACK FIN -m limit --limit 5/m 
 $IPT  -A INPUT -i ${PUB_IF} -p tcp --tcp-flags FIN,ACK FIN -j DROP # FIN packet scans
 
 $IPT  -A INPUT -i ${PUB_IF} -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+
 
 # Allow full outgoing connection but no incomming stuff
 $IPT -A INPUT -i eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
